@@ -93,8 +93,25 @@ proc testIntersectionX =
     else:
       doAssert result == expected
 
+proc testIntersection =
+  let tests = [
+    # ((yIntercept, slope), (yIntercept, slope), (x, y))
+    ((0f, 0f), (-1f, 1f), (1f, 0f)),
+    ((0f, 0f), (-1f, 0f), (Inff, Inff)),
+  ]
+  for test in tests:
+    let line1 = test[0]
+    let line2 = test[1]
+    let expected = test[2]
+    let result = intersection(line1, line2)
+    if expected[0] == Inff:
+      doAssert classify(result.x) == fcInf
+    else:
+      doAssert result == expected
+
 when isMainModule:
   testSlope()
   testIsClockwise()
   testValueAt()
   testIntersectionX()
+  testIntersection()

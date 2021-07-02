@@ -1,4 +1,3 @@
-import math
 
 type
   Point* = tuple
@@ -23,3 +22,8 @@ proc intersectionX*(line1: Line, line2: Line): float32 =
   let dyIntercept = line2.yIntercept - line1.yIntercept
   let dSlope = line2.slope - line1.slope
   return -dyIntercept / dSlope
+
+proc intersection*(line1: Line, line2: Line): Point =
+  let x = intersectionX(line1, line2)
+  let y = line1.valueAt(x)
+  return (x, y)
