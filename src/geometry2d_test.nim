@@ -21,7 +21,7 @@ proc testSlope =
     let p1 = test[0]
     let p2 = test[1]
     let expected = test[2]
-    let result = p1.slope(p2)
+    let result = slope(p1, p2)
     if expected == Inff:
       doAssert classify(result) == fcInf
     elif expected == NegInff:
@@ -48,8 +48,8 @@ proc testIsClockwise =
     let p3 = test[2]
     let expected = test[3]
     let result = isClockwise(p1, p2, p3)
-    doAssert(result == expected)
-    doAssert(result == slowIsClockwise(p1, p2, p3))
+    doAssert result == expected
+    doAssert result == slowIsClockwise(p1, p2, p3)
 
 when isMainModule:
   testSlope()
