@@ -63,7 +63,13 @@ Alternatively, use make:
 Inspect `Makefile` for more details.
 
 
-## Further Considerations
+## References
+
+Some helpful Nim docs,
+
+* [Nim Manual](https://nim-lang.org/docs/manual.html)
+* [Nim by Example](https://nim-by-example.github.io/)
+* [Nim Basics](https://narimiran.github.io/nim-basics/)
 
 I'm working on other Planarity implementations. This helps me to learn various programming environments and have some personal projects to refer back to when I need a refresher.
 
@@ -75,3 +81,4 @@ I'm working on other Planarity implementations. This helps me to learn various p
 ## Nim Notes
 
 * `*` after an identifier exports it
+* `$` is the stringify operator, overloading it is similar to `__str__` in Python

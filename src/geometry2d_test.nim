@@ -34,10 +34,9 @@ proc slowIsClockwise(p1: Point, p2: Point, p3: Point): bool =
   # Reference implementation; easy to grok, but does unnecessary branches and divides.
   # Handling of edge cases where points share an x-coordinate is different than is_clockwise.
   let slope1 = slope(p1, p2)
-  let slope2 = slope(p1, p3)
-  if classify(slope1) == fcInf or classify(slope1) == fcNegInf:
+  if isInfinite(slope1):
     return true
-  return slope1 > slope2
+  return slope1 > slope(p1, p3)
 
 proc testIsClockwise =
   let tests = [
@@ -95,7 +94,7 @@ proc testIntersectionX =
 
 proc testIntersection =
   let tests = [
-    # ((yIntercept, slope), (yIntercept, slope), (x, y))
+    # ((yIntercept, slope), (yIntercept, slope), intersection: (x, y))
     ((0f, 0f), (-1f, 1f), (1f, 0f)),
     ((0f, 0f), (-1f, 0f), (Inff, Inff)),
   ]
@@ -109,9 +108,67 @@ proc testIntersection =
     else:
       doAssert result == expected
 
+proc testSharesPoint =
+  let tests = [
+    # (((x1, y1), (x2, y2)), ((x1, y1), (x2, y2)), sharesPoint)
+    (((0f, 0f), (1f, 1f)), ((0f, 0f), (1f, -1f)), true),
+    (((0f, 0f), (1f, 1f)), ((-1f, 0f), (1f, 1f)), true),
+    (((-1f, -1f), (1f, 1f)), ((-1f, 1f), (1f, -1f)), false),
+  ]
+  for test in tests:
+    let line1 = test[0]
+    let line2 = test[1]
+    let expected = test[2]
+    let result = sharesPoint(line1, line2)
+    doAssert result == expected
+
+proc testIntersects =
+  let tests = [
+    # (((x1, y1), (x2, y2)), ((x1, y1), (x2, y2)), instersects)
+    (((-1f, -1f), (1f, 1f)), ((-1f, 1f), (1f, -1f)), true),
+    (((-1f, -1f), (1f, 1f)), ((-1f, 1f), (1f, 2f)), false),
+  ]
+  for test in tests:
+    let line1 = test[0]
+    let line2 = test[1]
+    let expected = test[2]
+    let result = intersects(line1, line2)
+    doAssert result == expected
+
+proc testNewIntersection =
+  let tests = [
+    # (fromPoint, toPoint, atPoint)
+    ((0f, 1f), (0f, -2f), (0f, 0f)),
+    ((0f, 1f), (1f, -1f), (0.5f, 0.5f)),
+  ]
+  for test in tests:
+    let fromPoint = test[0]
+    let toPoint = test[1]
+    let expected = test[2]
+    let result = newIntersection(fromPoint, toPoint)
+    doAssert result.atPoint == expected
+
+proc testIntersectionIsValid =
+  let tests = [
+    # (fromPoint, toPoint, isValid)
+    ((0f, 1f), (0f, -2f), true),
+    ((0f, 1f), (1f, -1f), true),
+    ((0f, 1f), (1f, 1f), false),
+  ]
+  for test in tests:
+    let fromPoint = test[0]
+    let toPoint = test[1]
+    let expected = test[2]
+    let result = isValid(newIntersection(fromPoint, toPoint))
+    doAssert result == expected
+
 when isMainModule:
   testSlope()
   testIsClockwise()
   testValueAt()
   testIntersectionX()
   testIntersection()
+  testSharesPoint()
+  testIntersects()
+  testNewIntersection()
+  testIntersectionIsValid()
