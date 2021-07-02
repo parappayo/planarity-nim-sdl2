@@ -18,3 +18,8 @@ type
 
 proc valueAt*(line: Line, x: float32): float32 =
   return line.slope * x + line.yIntercept
+
+proc intersectionX*(line1: Line, line2: Line): float32 =
+  let dyIntercept = line2.yIntercept - line1.yIntercept
+  let dSlope = line2.slope - line1.slope
+  return -dyIntercept / dSlope
