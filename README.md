@@ -4,6 +4,7 @@
 
 There is an [elegant implementation](https://www.jasondavies.com/planarity/) in JavaScript by Jason Davies, as well as a GTK+ [desktop version](http://web.mit.edu/xiphmont/Public/gPlanarity.html) by Chris Montgomery of Xiph.org.
 
+
 ## Development Setup
 
 I'm using [MSYS2](https://www.msys2.org/) with [MinGW](http://mingw-w64.org/) as a bash shell environment to build both nim and C code in Windows via the [gcc](https://gcc.gnu.org/) compiler. [Compiling to JS](https://nim-lang.org/docs/backends.html#backends-the-javascript-target) or compiling C via [clang](https://clang.llvm.org/) are also options, although the integration to SDL2 will be different.
@@ -11,6 +12,7 @@ I'm using [MSYS2](https://www.msys2.org/) with [MinGW](http://mingw-w64.org/) as
 Pacman is the MSYS2 package manager. The following packages are required:
 
 * `pacman -S git`
+* `pacman -S make`
 * `pacman -S mingw-w64-x86_64-gcc`
 * `pacman -S mingw-w64-x86_64-nim`
 * `pacman -S mingw-w64-x86_64-nimble`
@@ -45,11 +47,21 @@ To address this I used a solution [found on the web](https://forum.nim-lang.org/
 
 Having the `cacert.pem` file in my path allows me to use `nimble`.
 
+I also found that `testament` was not installed as part of the pacman package, so I wrote my tests without it.
+
+
 ## Building
 
 You can compile and launch the app with a simple nimble command:
 
 * `nimble run`
+
+Alternatively, use make:
+
+* `make`
+
+Inspect `Makefile` for more details.
+
 
 ## Further Considerations
 
@@ -58,3 +70,8 @@ I'm working on other Planarity implementations. This helps me to learn various p
 * [planarity-py](https://github.com/parappayo/planarity-py)
 * [planarity-winforms-cs](https://github.com/parappayo/planarity-winforms-cs)
 * [planarity-qt](https://github.com/parappayo/planarity-qt)
+
+
+## Nim Notes
+
+* `*` after an identifier exports it
