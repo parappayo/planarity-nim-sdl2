@@ -1,4 +1,6 @@
 
+let NaNf* = cast[float32](NaN)
+
 type
   Point* = tuple
     x: float32
@@ -7,5 +9,5 @@ type
 proc slope*(p1: Point, p2: Point): float32 =
   let dx = p2.x - p1.x
   if dx == 0:
-    return NaN
+    return NaNf
   return (p2.y - p1.y) / dx
