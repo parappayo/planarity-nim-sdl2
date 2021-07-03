@@ -80,5 +80,8 @@ proc newIntersection*(fromLine: Line, toLine: Line): Intersection =
 proc isValid*(point: Point): bool =
   not isInfOrNan(point.x) and not isInfOrNan(point.y)
 
+proc isValid*(line: Line): bool =
+  not isInfOrNan(line.yIntercept) and not isInfOrNan(line.slope)
+
 proc isValid*(inter: Intersection): bool =
   isValid(inter.atPoint)

@@ -2,7 +2,7 @@ import random
 import geometry2d
 
 proc rand(lowest: int, highest: int): int =
-  return rand(highest - lowest) + lowest
+  rand(highest - lowest) + lowest
 
 proc uniqRandInt*(lowest: int, highest: int, usedValues: var seq[int], maxRetries: int): int =
   result = rand(lowest, highest)
@@ -16,6 +16,11 @@ proc uniqRandInt*(lowest: int, highest: int, usedValues: var seq[int], maxRetrie
 
 proc randLine*(usedYIntercepts: var seq[int], usedSlopes: var seq[int]): Line =
   (
-    yIntercept: cast[float32](uniqRandInt(-1000, 1000, usedYIntercepts, 100)),
-    slope: cast[float32](uniqRandInt(-200, 200, usedSlopes, 100))
+    yIntercept: float32(uniqRandInt(-1000, 1000, usedYIntercepts, 100)),
+    slope: float32(uniqRandInt(-200, 200, usedSlopes, 100))
   )
+
+proc generateLinesAndIntersections*(lineCount: int): (seq[Line], seq[Intersection]) =
+  var lines = newSeq[Line]()
+  var inters = newSeq[Intersection]()
+  (lines, inters)
