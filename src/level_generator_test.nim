@@ -20,7 +20,12 @@ proc testGenerateLinesAndIntersections =
   let result = generateLinesAndIntersections(5)
   let lines = result[0]
   let inters = result[1]
-  doAssert false # not implemented
+  for line in lines:
+    doAssert line.isValid()
+  for inter in inters:
+    doAssert inter.isValid()
+  doAssert len(lines) == 5
+  doAssert len(inters) > 5
 
 when isMainModule:
   randomize() # non-deterministic tests, sorry about that

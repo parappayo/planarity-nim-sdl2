@@ -23,4 +23,15 @@ proc randLine*(usedYIntercepts: var seq[int], usedSlopes: var seq[int]): Line =
 proc generateLinesAndIntersections*(lineCount: int): (seq[Line], seq[Intersection]) =
   var lines = newSeq[Line]()
   var inters = newSeq[Intersection]()
+  var usedYIntercepts = newSeq[int]()
+  var usedSlopes = newSeq[int]()
+
+  for i in 1..lineCount:
+    let line = randLine(usedYIntercepts, usedSlopes)
+    for oldLine in lines:
+      let inter = newIntersection(line, old_line)
+      if inter.isValid():
+        inters.add(inter)
+    lines.add(line)
+
   (lines, inters)
