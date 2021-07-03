@@ -1,5 +1,4 @@
 import random
-import sequtils
 import geometry2d
 
 proc rand(lowest: int, highest: int): int =
@@ -14,3 +13,9 @@ proc uniqRandInt*(lowest: int, highest: int, usedValues: var seq[int], maxRetrie
     if loopCount > maxRetries:
       raise newException(Exception, "Failed to generate unique random integer")
   usedValues.add(result)
+
+proc randLine*(usedYIntercepts: var seq[int], usedSlopes: var seq[int]): Line =
+  (
+    yIntercept: cast[float32](uniqRandInt(-1000, 1000, usedYIntercepts, 100)),
+    slope: cast[float32](uniqRandInt(-200, 200, usedSlopes, 100))
+  )
