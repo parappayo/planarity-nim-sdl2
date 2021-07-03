@@ -19,10 +19,11 @@ proc testSlope =
     ((1f, 1f), (2f, -2f), -3f),
   ]
   for test in tests:
-    let p1 = test[0]
-    let p2 = test[1]
-    let expected = test[2]
-    let result = slope(p1, p2)
+    let
+      p1 = test[0]
+      p2 = test[1]
+      expected = test[2]
+      result = slope(p1, p2)
     if expected == Inff:
       doAssert classify(result) == fcInf
     elif expected == NegInff:
@@ -53,11 +54,12 @@ proc testIsClockwise =
     ((5f, 5f), (6f, 4f), (7f, 3f), false),
   ]
   for test in tests:
-    let p1 = test[0]
-    let p2 = test[1]
-    let p3 = test[2]
-    let expected = test[3]
-    let result = isClockwise(p1, p2, p3)
+    let
+      p1 = test[0]
+      p2 = test[1]
+      p3 = test[2]
+      expected = test[3]
+      result = isClockwise(p1, p2, p3)
     doAssert result == expected
     doAssert result == slowIsClockwise(p1, p2, p3)
 
@@ -70,10 +72,11 @@ proc testValueAt =
     ((-1f, 0f), 3f, -1f),
   ]
   for test in tests:
-    let line = test[0]
-    let x = test[1]
-    let expected = test[2]
-    let result = valueAt(line, x)
+    let
+      line = test[0]
+      x = test[1]
+      expected = test[2]
+      result = valueAt(line, x)
     doAssert result == expected
 
 proc testIntersectionX =
@@ -83,10 +86,11 @@ proc testIntersectionX =
     ((0f, 0f), (-1f, 0f), Inff),
   ]
   for test in tests:
-    let line1 = test[0]
-    let line2 = test[1]
-    let expected = test[2]
-    let result = intersectionX(line1, line2)
+    let
+      line1 = test[0]
+      line2 = test[1]
+      expected = test[2]
+      result = intersectionX(line1, line2)
     if expected == Inff:
       doAssert classify(result) == fcInf
     else:
@@ -99,10 +103,11 @@ proc testIntersection =
     ((0f, 0f), (-1f, 0f), (Inff, Inff)),
   ]
   for test in tests:
-    let line1 = test[0]
-    let line2 = test[1]
-    let expected = test[2]
-    let result = intersection(line1, line2)
+    let
+      line1 = test[0]
+      line2 = test[1]
+      expected = test[2]
+      result = intersection(line1, line2)
     if expected[0] == Inff:
       doAssert classify(result.x) == fcInf
     else:
@@ -116,10 +121,11 @@ proc testSharesPoint =
     (((-1f, -1f), (1f, 1f)), ((-1f, 1f), (1f, -1f)), false),
   ]
   for test in tests:
-    let line1 = test[0]
-    let line2 = test[1]
-    let expected = test[2]
-    let result = sharesPoint(line1, line2)
+    let
+      line1 = test[0]
+      line2 = test[1]
+      expected = test[2]
+      result = sharesPoint(line1, line2)
     doAssert result == expected
 
 proc testIntersects =
@@ -129,10 +135,11 @@ proc testIntersects =
     (((-1f, -1f), (1f, 1f)), ((-1f, 1f), (1f, 2f)), false),
   ]
   for test in tests:
-    let line1 = test[0]
-    let line2 = test[1]
-    let expected = test[2]
-    let result = intersects(line1, line2)
+    let
+      line1 = test[0]
+      line2 = test[1]
+      expected = test[2]
+      result = intersects(line1, line2)
     doAssert result == expected
 
 proc testNewIntersection =
@@ -156,10 +163,11 @@ proc testIntersectionIsValid =
     ((0f, 1f), (1f, 1f), false),
   ]
   for test in tests:
-    let fromPoint = test[0]
-    let toPoint = test[1]
-    let expected = test[2]
-    let result = isValid(newIntersection(fromPoint, toPoint))
+    let
+      fromPoint = test[0]
+      toPoint = test[1]
+      expected = test[2]
+      result = isValid(newIntersection(fromPoint, toPoint))
     doAssert result == expected
 
 when isMainModule:

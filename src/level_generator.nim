@@ -23,10 +23,11 @@ proc randLine*(usedYIntercepts: var seq[int], usedSlopes: var seq[int]): Line =
   )
 
 proc generateLinesAndIntersections*(lineCount: int): (seq[Line], seq[Intersection]) =
-  var lines = newSeq[Line]()
-  var inters = newSeq[Intersection]()
-  var usedYIntercepts = newSeq[int]()
-  var usedSlopes = newSeq[int]()
+  var
+    lines = newSeq[Line]()
+    inters = newSeq[Intersection]()
+    usedYIntercepts = newSeq[int]()
+    usedSlopes = newSeq[int]()
 
   for i in 1..lineCount:
     let line = randLine(usedYIntercepts, usedSlopes)
@@ -45,14 +46,16 @@ proc pointsAlongLine*(line: Line, inters: seq[Intersection]): seq[Point] =
     proc(inter: Intersection): Point = inter.atPoint)
 
 proc pointNeighbourPairs*(lines: seq[Line], inters: seq[Intersection]): (HashSet[Point], seq[LineSegment]) =
-  var points = newSeq[Point]()
-  var connections = newSeq[LineSegment]()
+  var
+    points = newSeq[Point]()
+    connections = newSeq[LineSegment]()
 
   for line in lines:
     let pointsOnLine = pointsAlongLine(line, inters)
     if len(pointsOnLine) < 1: continue
-    var previousPoint = pointsOnLine[0]
-    var firstLoop = true
+    var
+      previousPoint = pointsOnLine[0]
+      firstLoop = true
     for point in pointsOnLine:
       points.add(point)
       if not firstLoop:

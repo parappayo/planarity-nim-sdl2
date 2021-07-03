@@ -45,13 +45,15 @@ proc valueAt*(line: Line, x: float32): float32 =
   line.slope * x + line.yIntercept
 
 proc intersectionX*(line1: Line, line2: Line): float32 =
-  let dyIntercept = line2.yIntercept - line1.yIntercept
-  let dSlope = line2.slope - line1.slope
+  let
+    dyIntercept = line2.yIntercept - line1.yIntercept
+    dSlope = line2.slope - line1.slope
   -dyIntercept / dSlope
 
 proc intersection*(line1: Line, line2: Line): Point =
-  let x = intersectionX(line1, line2)
-  let y = line1.valueAt(x)
+  let
+    x = intersectionX(line1, line2)
+    y = line1.valueAt(x)
   (x, y)
 
 proc sharesPoint*(line1: LineSegment, line2: LineSegment): bool =
