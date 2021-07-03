@@ -3,20 +3,16 @@ import strformat
 
 type
   Point* = tuple
-    x: float32
-    y: float32
+    x, y: float32
 
   Line* = tuple
-    yIntercept: float32
-    slope: float32
+    yIntercept, slope: float32
 
   LineSegment* = tuple
-    fromPoint: Point
-    toPoint: Point
+    fromPoint, toPoint: Point
 
   Intersection* = ref object
-    fromLine: Line
-    toLine: Line
+    fromLine, toLine: Line
     atPoint*: Point
 
 proc `$`*(line: Line): string =
