@@ -82,3 +82,4 @@ I'm working on other Planarity implementations. This helps me to learn various p
 
 * `*` after an identifier exports it
 * `$` is the stringify operator, overloading it is similar to `__str__` in Python
+* `result` is a special var, implicitly returned at end of proc
