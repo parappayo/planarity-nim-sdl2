@@ -11,10 +11,9 @@ template sdlFailIf(condition: typed, reason: string) =
     reason & ", SDL error " & $getError()
   )
 
-proc main =
+proc initSdl: (RendererPtr, WindowPtr) =
   sdlFailIf(not sdl2.init(INIT_VIDEO or INIT_TIMER or INIT_EVENTS)):
     "SDL2 initialization failed"
-  defer: sdl2.quit()
 
   let window = createWindow(
     title = "Planarity",
@@ -24,9 +23,7 @@ proc main =
     h = WindowHeight,
     flags = SDL_WINDOW_SHOWN
   )
-
   sdlFailIf window.isNil: "window could not be created"
-  defer: window.destroy()
 
   let renderer = createRenderer(
     window = window,
@@ -34,6 +31,29 @@ proc main =
     flags = Renderer_Accelerated or Renderer_PresentVsync or Renderer_TargetTexture
   )
   sdlFailIf renderer.isNil: "renderer could not be created"
+
+  (renderer, window)
+
+proc drawFrame(renderer: RendererPtr) =
+  renderer.setDrawColor 0, 0, 0, 255 # black
+  renderer.clear()
+
+  renderer.setDrawColor 255, 255, 255, 255 # white
+  var r = rect(
+    cint(100), cint(100),
+    cint(20), cint(20)
+  )
+  renderer.fillRect(r)
+
+  renderer.present()
+
+proc main =
+  let
+    init = initSdl()
+    renderer = init[0]
+    window = init[1]
+  defer: sdl2.quit()
+  defer: window.destroy()
   defer: renderer.destroy()
 
   var running = true
@@ -48,6 +68,8 @@ proc main =
         break
       else:
         discard
+
+    drawFrame(renderer)
 
 when isMainModule:
   main()
