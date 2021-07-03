@@ -11,7 +11,7 @@ type
   LineSegment* = tuple
     fromPoint, toPoint: Point
 
-  Intersection* = ref object
+  Intersection* = object
     fromLine, toLine: Line
     atPoint*: Point
 
