@@ -1,5 +1,6 @@
 import random
 import sequtils
+import sets
 import geometry2d
 
 proc rand(lowest: int, highest: int): int =
@@ -42,3 +43,21 @@ proc pointsAlongLine*(line: Line, inters: seq[Intersection]): seq[Point] =
     proc(inter: Intersection): bool = inter.isOnLine(line))
   intersOnLine.map(
     proc(inter: Intersection): Point = inter.atPoint)
+
+proc pointNeighbourPairs*(lines: seq[Line], inters: seq[Intersection]): (HashSet[Point], seq[LineSegment]) =
+  var points = newSeq[Point]()
+  var connections = newSeq[LineSegment]()
+
+  for line in lines:
+    let pointsOnLine = pointsAlongLine(line, inters)
+    if len(pointsOnLine) < 1: continue
+    var previousPoint = pointsOnLine[0]
+    var firstLoop = true
+    for point in pointsOnLine:
+      points.add(point)
+      if not firstLoop:
+        connections.add((previousPoint, point))
+      previousPoint = point
+      firstLoop = false
+
+  (points.toHashSet(), connections)

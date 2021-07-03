@@ -1,4 +1,5 @@
 import random
+import sets
 import geometry2d
 import level_generator
 
@@ -34,9 +35,20 @@ proc testPointsAlongLine =
   let result = pointsAlongLine(lines[0], inters)
   doAssert len(result) > 0
 
+proc testPointNeighbourPairs =
+  let linesAndIntersections = generateLinesAndIntersections(5)
+  let lines = linesAndIntersections[0]
+  let inters = linesAndIntersections[1]
+  let result = pointNeighbourPairs(lines, inters)
+  let points = result[0]
+  let connections = result[1]
+  doAssert len(points) > 5
+  doAssert len(connections) > 5
+
 when isMainModule:
   randomize() # non-deterministic tests, sorry about that
   testUniqRandInt()
   testRandLine()
   testGenerateLinesAndIntersections()
   testPointsAlongLine()
+  testPointNeighbourPairs()
