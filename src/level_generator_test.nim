@@ -45,6 +45,13 @@ proc testPointNeighbourPairs =
   doAssert len(points) > 5
   doAssert len(connections) > 5
 
+proc testGenerateLevel =
+  let result = generateLevel(5)
+  let points = result[0]
+  let connections = result[1]
+  doAssert len(points) > 5
+  doAssert len(connections) > 5
+
 when isMainModule:
   randomize() # non-deterministic tests, sorry about that
   testUniqRandInt()
@@ -52,3 +59,4 @@ when isMainModule:
   testGenerateLinesAndIntersections()
   testPointsAlongLine()
   testPointNeighbourPairs()
+  testGenerateLevel()

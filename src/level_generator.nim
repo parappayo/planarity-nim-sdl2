@@ -61,3 +61,7 @@ proc pointNeighbourPairs*(lines: seq[Line], inters: seq[Intersection]): (HashSet
       firstLoop = false
 
   (points.toHashSet(), connections)
+
+proc generateLevel*(lineCount: int): (HashSet[Point], seq[LineSegment]) =
+  let linesAndInters = generateLinesAndIntersections(lineCount)
+  pointNeighbourPairs(linesAndInters[0], linesAndInters[1])
