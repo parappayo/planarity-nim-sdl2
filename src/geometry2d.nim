@@ -85,3 +85,6 @@ proc isValid*(line: Line): bool =
 
 proc isValid*(inter: Intersection): bool =
   isValid(inter.atPoint)
+
+proc isOnLine*(inter: Intersection, line: Line): bool =
+  inter.isValid and (inter.fromLine == line or inter.toLine == line)

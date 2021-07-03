@@ -27,8 +27,16 @@ proc testGenerateLinesAndIntersections =
   doAssert len(lines) == 5
   doAssert len(inters) > 5
 
+proc testPointsAlongLine =
+  let linesAndIntersections = generateLinesAndIntersections(5)
+  let lines = linesAndIntersections[0]
+  let inters = linesAndIntersections[1]
+  let result = pointsAlongLine(lines[0], inters)
+  doAssert len(result) > 0
+
 when isMainModule:
   randomize() # non-deterministic tests, sorry about that
   testUniqRandInt()
   testRandLine()
   testGenerateLinesAndIntersections()
+  testPointsAlongLine()

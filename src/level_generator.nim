@@ -1,4 +1,5 @@
 import random
+import sequtils
 import geometry2d
 
 proc rand(lowest: int, highest: int): int =
@@ -35,3 +36,9 @@ proc generateLinesAndIntersections*(lineCount: int): (seq[Line], seq[Intersectio
     lines.add(line)
 
   (lines, inters)
+
+proc pointsAlongLine*(line: Line, inters: seq[Intersection]): seq[Point] =
+  let intersOnLine = inters.filter(
+    proc(inter: Intersection): bool = inter.isOnLine(line))
+  intersOnLine.map(
+    proc(inter: Intersection): Point = inter.atPoint)
