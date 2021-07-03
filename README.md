@@ -80,6 +80,9 @@ I'm working on other Planarity implementations. This helps me to learn various p
 
 ## Nim Notes
 
+I'm new to nim so the following are some reminders for myself.
+
 * `*` after an identifier exports it
 * `$` is the stringify operator, overloading it is similar to `__str__` in Python
 * `result` is a special var, implicitly returned at end of proc
+* `float(foo)` is like a C++ `dynamic_cast`, `cast[float](foo)` is like a `reinterpret_cast`
