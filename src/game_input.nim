@@ -8,9 +8,7 @@ var subscribers = initTable[EventType, ref seq[EventHandler]]()
 
 proc addSubscriber*(eventType: EventType, handler: EventHandler) =
   if not subscribers.hasKey(eventType):
-    return
-    # TODO: fixme, can't figure this out
-    # subscribers[eventType] = newSeq[EventHandler]()
+    subscribers[eventType] = new seq[EventHandler]
   subscribers[eventType][].add(handler)
 
 proc handleEvent*(event: Event, gameState: var GameState) =
