@@ -83,9 +83,11 @@ I'm working on other Planarity implementations. This helps me to learn various p
 
 I'm new to nim so the following are some reminders for myself.
 
+* `echo` for debug prints
 * `*` after an identifier exports it
 * `$` is the stringify operator, overloading it is similar to `__str__` in Python
 * `&` is the formatted string operator, eg. `&"foo={foo}"`
 * `result` is a special var, implicitly returned at end of proc
 * `float(foo)` is like a C++ `dynamic_cast`, `cast[float](foo)` is like a `reinterpret_cast`
 * `..<` is userful when iterating over a range: `for i in 0 ..< len(foo)`
+* see [References and pointer types](https://nim-lang.org/docs/manual.html#types-reference-and-pointer-types) for dealing with ref semantics
