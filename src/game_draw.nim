@@ -2,7 +2,7 @@ import game_state
 import level_generator
 import sdl2
 
-proc drawPip(renderer: RendererPtr, pip: ref Pip) =
+proc drawPip(renderer: RendererPtr, pip: Pip) =
   let
     w = cint(20)
     h = cint(20)

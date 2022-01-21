@@ -8,7 +8,7 @@ type
     x*, y*: float32
 
   Edge* = object
-    fromPip*, toPip*: ref Pip
+    fromPip*, toPip*: Pip
 
 proc rand(lowest: int, highest: int): int =
   rand(highest - lowest) + lowest
@@ -52,38 +52,38 @@ proc pointsAlongLine*(line: Line, inters: seq[Intersection]): seq[Point] =
   intersOnLine.map(
     proc(inter: Intersection): Point = inter.atPoint)
 
-proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[ref Pip], seq[Edge]) =
+proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[Pip], seq[Edge]) =
   var
-    pips = newSeq[ref Pip]()
+    pips = newSeq[Pip]()
     connections = newSeq[Edge]()
-    visitedPoints = initTable[Point, ref Pip]()
+    visitedPoints = initTable[Point, Pip]()
 
   for line in lines:
     let pointsOnLine = pointsAlongLine(line, inters)
     if len(pointsOnLine) < 1: continue
 
     var
-      previousPip: ref Pip
+      previousPip: Pip
+      firstLoop = true
 
     for point in pointsOnLine:
-      var pip: ref Pip
+      var pip: Pip
 
       if visitedPoints.hasKey(point):
         pip = visitedPoints[point]
       else:
-        pip = new(Pip)
-        pip.x = point.x
-        pip.y = point.y
+        pip = Pip(x: point.x, y: point.y)
         visitedPoints[point] = pip
 
       pips.add(pip)
-      if previousPip != nil:
+      if not firstLoop:
         connections.add(Edge(fromPip: previousPip, toPip: pip))
 
       previousPip = pip
+      firstLoop = false
 
   (pips, connections)
 
-proc generateLevel*(lineCount: int): (seq[ref Pip], seq[Edge]) =
+proc generateLevel*(lineCount: int): (seq[Pip], seq[Edge]) =
   let linesAndInters = generateLinesAndIntersections(lineCount)
   findPips(linesAndInters[0], linesAndInters[1])
