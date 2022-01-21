@@ -1,7 +1,6 @@
 import math
 import geometry2d
 import level_generator
-import sets
 
 type
   Colour* = tuple
@@ -10,14 +9,8 @@ type
   ScreenSize* = tuple
     width, height: int
 
-  Pip* = object
-    x*, y*: float32
-
-  Edge* = object
-    fromPip*, toPip*: Pip
-
   GameState* = object
-    pips*: seq[Pip]
+    pips*: seq[ref Pip]
     edges*: seq[Edge]
     backgroundColour*: Colour
     screenSize*: ScreenSize
@@ -32,7 +25,7 @@ iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
     )
     theta += thetaStep
 
-proc arrangeInCircle(pips: seq[Pip], screenSize: ScreenSize): seq[Pip] =
+proc arrangeInCircle(pips: seq[ref Pip], screenSize: ScreenSize) =
   let
     center = (
       float32(screenSize.width) / 2f,
@@ -40,31 +33,23 @@ proc arrangeInCircle(pips: seq[Pip], screenSize: ScreenSize): seq[Pip] =
     )
     radius = float32(screenSize.height) / 2.5f
 
-  result = newSeq[Pip]()
-
+  var i = 0
   for destPoint in circlePoints(center, radius, len(pips)):
-    result.add(Pip(x: destPoint[0], y: destPoint[1]))
-
-proc toPips(points: HashSet[Point]): seq[Pip] =
-  result = newSeq[Pip]()
-  for point in points:
-    result.add(Pip(x: point.x, y: point.y))
-
-proc toEdges(connections: seq[LineSegment]): seq[Edge] =
-  result = newSeq[Edge]()
+    pips[i].x = destPoint.x
+    pips[i].y = destPoint.y
+    i += 1
 
 proc startLevel(game: var GameState, level: int) =
   let
     lineCount = level + 4
     level = generateLevel(lineCount)
-    points = level[0]
-    connections = level[1]
-  game.pips = arrangeInCircle(toPips(points), game.screenSize)
-  game.edges = toEdges(connections)
+  game.pips = level[0]
+  game.edges = level[1]
+  arrangeInCircle(game.pips, game.screenSize)
 
 proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
   result = GameState(
-    pips: newSeq[Pip](),
+    pips: newSeq[ref Pip](),
     edges: newSeq[Edge](),
     screenSize: (screenWidth, screenHeight)
   )

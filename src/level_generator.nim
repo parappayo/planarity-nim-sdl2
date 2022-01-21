@@ -1,7 +1,14 @@
 import random
 import sequtils
-import sets
+import tables
 import geometry2d
+
+type
+  Pip* = object
+    x*, y*: float32
+
+  Edge* = object
+    fromPip*, toPip*: ref Pip
 
 proc rand(lowest: int, highest: int): int =
   rand(highest - lowest) + lowest
@@ -45,26 +52,38 @@ proc pointsAlongLine*(line: Line, inters: seq[Intersection]): seq[Point] =
   intersOnLine.map(
     proc(inter: Intersection): Point = inter.atPoint)
 
-proc pointNeighbourPairs*(lines: seq[Line], inters: seq[Intersection]): (HashSet[Point], seq[LineSegment]) =
+proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[ref Pip], seq[Edge]) =
   var
-    points = newSeq[Point]()
-    connections = newSeq[LineSegment]()
+    pips = newSeq[ref Pip]()
+    connections = newSeq[Edge]()
+    visitedPoints = initTable[Point, ref Pip]()
 
   for line in lines:
     let pointsOnLine = pointsAlongLine(line, inters)
     if len(pointsOnLine) < 1: continue
+
     var
-      previousPoint = pointsOnLine[0]
-      firstLoop = true
+      previousPip: ref Pip
+
     for point in pointsOnLine:
-      points.add(point)
-      if not firstLoop:
-        connections.add((previousPoint, point))
-      previousPoint = point
-      firstLoop = false
+      var pip: ref Pip
 
-  (points.toHashSet(), connections)
+      if visitedPoints.hasKey(point):
+        pip = visitedPoints[point]
+      else:
+        pip = new(Pip)
+        pip.x = point.x
+        pip.y = point.y
+        visitedPoints[point] = pip
 
-proc generateLevel*(lineCount: int): (HashSet[Point], seq[LineSegment]) =
+      pips.add(pip)
+      if previousPip != nil:
+        connections.add(Edge(fromPip: previousPip, toPip: pip))
+
+      previousPip = pip
+
+  (pips, connections)
+
+proc generateLevel*(lineCount: int): (seq[ref Pip], seq[Edge]) =
   let linesAndInters = generateLinesAndIntersections(lineCount)
-  pointNeighbourPairs(linesAndInters[0], linesAndInters[1])
+  findPips(linesAndInters[0], linesAndInters[1])
