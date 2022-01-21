@@ -9,6 +9,6 @@ proc onKeyDown(event: Event, gameState: var GameState) =
   if event.key.keysym.scancode == SDL_SCANCODE_ESCAPE:
     gameState.running = false
 
-proc quitInputInit*() =
+proc init*() =
   addSubscriber(QuitEvent, onQuit)
   addSubscriber(KeyDown, onKeyDown)

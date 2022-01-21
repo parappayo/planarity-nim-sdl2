@@ -1,6 +1,7 @@
 import game_draw
 import game_input
 import game_state
+import input_mouse_drag
 import input_quit
 import sdl2
 
@@ -47,7 +48,8 @@ proc main =
   defer: window.destroy()
   defer: renderer.destroy()
 
-  quitInputInit()
+  input_mouse_drag.init()
+  input_quit.init()
 
   var gameState = newGameState(1, 800, 600)
 
