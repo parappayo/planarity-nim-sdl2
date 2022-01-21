@@ -3,11 +3,9 @@ import sdl2
 
 proc drawPip(renderer: RendererPtr, pip: Pip) =
   let
-    w = 20f
-    h = 20f
-  var r = rect(
-      cint(pip.x), cint(pip.y),
-      cint(pip.x + w), cint(pip.y + h))
+    w = cint(20)
+    h = cint(20)
+  var r = rect(cint(pip.x), cint(pip.y), w, h)
   renderer.setDrawColor 255, 255, 255, 255 # white
   renderer.fillRect(r)
 
