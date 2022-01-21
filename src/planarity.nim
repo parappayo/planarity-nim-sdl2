@@ -1,3 +1,5 @@
+import game_draw
+import game_state
 import sdl2
 
 const
@@ -34,19 +36,6 @@ proc initSdl: (RendererPtr, WindowPtr) =
 
   (renderer, window)
 
-proc drawFrame(renderer: RendererPtr) =
-  renderer.setDrawColor 0, 0, 0, 255 # black
-  renderer.clear()
-
-  renderer.setDrawColor 255, 255, 255, 255 # white
-  var r = rect(
-    cint(100), cint(100),
-    cint(20), cint(20)
-  )
-  renderer.fillRect(r)
-
-  renderer.present()
-
 proc main =
   let
     init = initSdl()
@@ -55,6 +44,8 @@ proc main =
   defer: sdl2.quit()
   defer: window.destroy()
   defer: renderer.destroy()
+
+  let gameState = newGameState(1, 800, 600)
 
   var running = true
 
@@ -69,7 +60,7 @@ proc main =
       else:
         discard
 
-    drawFrame(renderer)
+    drawFrame(renderer, gameState)
 
 when isMainModule:
   main()

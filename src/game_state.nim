@@ -1,6 +1,7 @@
 import math
 import geometry2d
 import level_generator
+import sets
 
 type
   Colour* = tuple
@@ -46,18 +47,28 @@ proc arrangeInCircle(pips: seq[Pip], screenSize: ScreenSize) =
     pip.x = destPoint[0]
     pip.y = destPoint[1]
 
-# proc startLevel*(game: var GameState, level: int) =
-#   let
-#     lineCount = level + 4
-#     newLevel = generateLevel(lineCount)
-#   game.pips = toPips(newLevel[0])
-#   game.edges = toEdges(newLevel[1])
-#   arrangeInCircle(game.pips, game.screenSize)
+proc toPips(points: HashSet[Point]): seq[Pip] =
+  result = newSeq[Pip]()
+  for point in points:
+    result.add(Pip(x: point.x, y: point.y))
 
-# proc newGameState*(level: int) =
-#   result = GameState(
-#     pips: newSeq[Pip](),
-#     game.edges: newSeq[Edge](),
-#     screenSize: (800, 600)
-#   )
-#   startLevel(result, level)
+proc toEdges(connections: seq[LineSegment]): seq[Edge] =
+  result = newSeq[Edge]()
+
+proc startLevel(game: var GameState, level: int) =
+  let
+    lineCount = level + 4
+    level = generateLevel(lineCount)
+    points = level[0]
+    connections = level[1]
+  game.pips = toPips(points)
+  game.edges = toEdges(connections)
+  arrangeInCircle(game.pips, game.screenSize)
+
+proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
+  result = GameState(
+    pips: newSeq[Pip](),
+    edges: newSeq[Edge](),
+    screenSize: (screenWidth, screenHeight)
+  )
+  startLevel(result, level)
