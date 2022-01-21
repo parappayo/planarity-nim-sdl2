@@ -10,8 +10,8 @@ type
     width, height: int
 
   GameState* = object
-    pips*: seq[Pip]
-    edges*: seq[Edge]
+    pips*: seq[ref Pip]
+    edges*: seq[ref Edge]
     backgroundColour*: Colour
     screenSize*: ScreenSize
 
@@ -25,7 +25,7 @@ iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
     )
     theta += thetaStep
 
-proc arrangeInCircle(pips: var seq[Pip], screenSize: ScreenSize) =
+proc arrangeInCircle(pips: var seq[ref Pip], screenSize: ScreenSize) =
   let
     center = (
       float32(screenSize.width) / 2f,
@@ -49,8 +49,8 @@ proc startLevel(game: var GameState, level: int) =
 
 proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
   result = GameState(
-    pips: newSeq[Pip](),
-    edges: newSeq[Edge](),
+    pips: newSeq[ref Pip](),
+    edges: newSeq[ref Edge](),
     screenSize: (screenWidth, screenHeight)
   )
   startLevel(result, level)

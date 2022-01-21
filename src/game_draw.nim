@@ -15,6 +15,6 @@ proc drawFrame*(renderer: RendererPtr, gameState: GameState) =
   renderer.clear()
 
   for pip in gameState.pips:
-    drawPip(renderer, pip)
+    drawPip(renderer, pip[])
 
   renderer.present()
