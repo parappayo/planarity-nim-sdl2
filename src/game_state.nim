@@ -53,6 +53,8 @@ proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
     pips: newSeq[ref Pip](),
     edges: newSeq[ref Edge](),
     screenSize: (screenWidth, screenHeight),
+
+    # set this to false and the program will exit on the next event loop
     running: true
   )
   startLevel(result, level)
