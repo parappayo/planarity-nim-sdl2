@@ -1,5 +1,7 @@
 import game_draw
+import game_input
 import game_state
+import input_quit
 import sdl2
 
 const
@@ -45,20 +47,15 @@ proc main =
   defer: window.destroy()
   defer: renderer.destroy()
 
-  let gameState = newGameState(1, 800, 600)
+  quitInputInit()
 
-  var running = true
+  var gameState = newGameState(1, 800, 600)
 
-  while running:
+  while gameState.running:
     var event = defaultEvent
 
     while pollEvent(event):
-      case event.kind
-      of QuitEvent:
-        running = false
-        break
-      else:
-        discard
+      handleEvent(event, gameState)
 
     drawFrame(renderer, gameState)
 

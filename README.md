@@ -71,6 +71,7 @@ Some helpful Nim docs,
 * [Nim by Example](https://nim-by-example.github.io/)
 * [Nim Manual](https://nim-lang.org/docs/manual.html)
 * [Nim Playground](https://play.nim-lang.org/)
+* [Nim SDL2 Bindings](https://github.com/nim-lang/sdl2/blob/master/src/sdl2.nim)
 
 I'm working on other Planarity implementations. This helps me to learn various programming environments and have some personal projects to refer back to when I need a refresher.
 

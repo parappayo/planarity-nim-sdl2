@@ -14,6 +14,7 @@ type
     edges*: seq[ref Edge]
     backgroundColour*: Colour
     screenSize*: ScreenSize
+    running*: bool
 
 iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
   var theta = 0f
@@ -51,6 +52,7 @@ proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
   result = GameState(
     pips: newSeq[ref Pip](),
     edges: newSeq[ref Edge](),
-    screenSize: (screenWidth, screenHeight)
+    screenSize: (screenWidth, screenHeight),
+    running: true
   )
   startLevel(result, level)
