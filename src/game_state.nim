@@ -15,8 +15,8 @@ type
     backgroundColour*: Colour
     screenSize*: ScreenSize
     running*: bool
+    lastFoundCollision*: (ref Edge, ref Edge)
     levelComplete: bool
-    lastFoundCollision: (ref Edge, ref Edge)
 
 iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
   var theta = 0f
@@ -82,6 +82,7 @@ proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
     # set this to false and the program will exit on the next event loop
     running: true,
 
+    lastFoundCollision: (nil, nil),
     levelComplete: false
   )
   startLevel(result, level)

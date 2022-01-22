@@ -3,7 +3,6 @@ import level_generator
 import sdl2
 
 proc drawEdge(renderer: RendererPtr, edge: Edge) =
-  renderer.setDrawColor 255, 255, 255, 255 # white
   renderer.drawLine(
     cint(edge.fromPip.x), cint(edge.fromPip.y),
     cint(edge.toPip.x), cint(edge.toPip.y))
@@ -32,6 +31,11 @@ proc drawFrame*(renderer: RendererPtr, gameState: GameState) =
   renderer.clear()
 
   for edge in gameState.edges:
+    if edge == gameState.lastFoundCollision[0] or
+      edge == gameState.lastFoundCollision[1]:
+      renderer.setDrawColor 255, 0, 0, 255 # red
+    else:
+      renderer.setDrawColor 255, 255, 255, 255 # white
     renderer.drawEdge(edge[])
 
   for pip in gameState.pips:
