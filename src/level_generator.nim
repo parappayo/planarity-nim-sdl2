@@ -10,6 +10,15 @@ type
   Edge* = object
     fromPip*, toPip*: ref Pip
 
+proc toPoint(pip: Pip): Point =
+  (x: pip.x, y: pip.y)
+
+proc toLineSegment(edge: Edge): LineSegment =
+  (fromPoint: edge.fromPip[].toPoint(), toPoint: edge.toPip[].toPoint())
+
+proc intersects*(edge1: Edge, edge2: Edge): bool =
+  intersects(edge1.toLineSegment(), edge2.toLineSegment())
+
 proc rand(lowest: int, highest: int): int =
   rand(highest - lowest) + lowest
 

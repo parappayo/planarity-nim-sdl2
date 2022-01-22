@@ -15,6 +15,8 @@ type
     backgroundColour*: Colour
     screenSize*: ScreenSize
     running*: bool
+    levelComplete: bool
+    lastFoundCollision: (ref Edge, ref Edge)
 
 iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
   var theta = 0f
@@ -48,7 +50,7 @@ proc findPip*(gameState: GameState, pos: tuple[x: float32, y: float32]): ref Pip
       dy = pip.y - pos.y
     if dx * dx + dy * dy < radius * radius:
       return pip
-  return nil
+  nil
 
 proc startLevel(game: var GameState, level: int) =
   let
@@ -58,6 +60,19 @@ proc startLevel(game: var GameState, level: int) =
   game.edges = level[1]
   arrangeInCircle(game.pips, game.screenSize)
 
+proc checkWinCondition*(game: var GameState) =
+  if game.levelComplete:
+    return
+  for edge1 in game.edges:
+    for edge2 in game.edges:
+      if edge1 == edge2:
+        continue
+      if edge1[].intersects(edge2[]):
+        game.lastFoundCollision = (edge1, edge2)
+        return
+  game.lastFoundCollision = (nil, nil)
+  game.levelComplete = true
+
 proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
   result = GameState(
     pips: newSeq[ref Pip](),
@@ -65,6 +80,8 @@ proc newGameState*(level: int, screenWidth: int, screenHeight: int): GameState =
     screenSize: (screenWidth, screenHeight),
 
     # set this to false and the program will exit on the next event loop
-    running: true
+    running: true,
+
+    levelComplete: false
   )
   startLevel(result, level)

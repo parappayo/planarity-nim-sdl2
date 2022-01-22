@@ -11,6 +11,7 @@ proc onMouseButtonDown(event: Event, gameState: var GameState) =
 
 proc onMouseButtonUp(event: Event, gameState: var GameState) =
   mouseDragTarget = nil
+  gameState.checkWinCondition()
 
 proc onMouseMotion(event: Event, gameState: var GameState) =
   if mouseDragTarget == nil:
