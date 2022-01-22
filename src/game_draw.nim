@@ -10,11 +10,22 @@ proc drawEdge(renderer: RendererPtr, edge: Edge) =
 
 proc drawPip(renderer: RendererPtr, pip: Pip) =
   let
-    w = cint(20)
-    h = cint(20)
-  var r = rect(cint(pip.x), cint(pip.y), w, h)
+    halfWidth = cint(12)
+    halfHeight = cint(12)
+    borderThickness = cint(2)
+
+  var
+    outerRect = rect(
+      cint(pip.x) - halfWidth, cint(pip.y) - halfHeight,
+      halfWidth * 2, halfHeight * 2)
+    innerRect = rect(
+      outerRect.x + borderThickness, outerRect.y + borderThickness,
+      outerRect.w - (borderThickness * 2), outerRect.h - (borderThickness * 2))
+
   renderer.setDrawColor 255, 255, 255, 255 # white
-  renderer.fillRect(r)
+  renderer.fillRect(outerRect)
+  renderer.setDrawColor 196, 196, 196, 255 # grey
+  renderer.fillRect(innerRect)
 
 proc drawFrame*(renderer: RendererPtr, gameState: GameState) =
   renderer.setDrawColor 0, 0, 0, 255 # black

@@ -92,3 +92,4 @@ I'm new to nim so the following are some reminders for myself.
 * `float(foo)` is like a C++ `dynamic_cast`, `cast[float](foo)` is like a `reinterpret_cast`
 * `..<` is userful when iterating over a range: `for i in 0 ..< len(foo)`
 * see [References and pointer types](https://nim-lang.org/docs/manual.html#types-reference-and-pointer-types) for dealing with ref semantics
+* `[]` is the dereference operator
