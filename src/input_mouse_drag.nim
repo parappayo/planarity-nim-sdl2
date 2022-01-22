@@ -3,16 +3,20 @@ import game_state
 import level_generator
 import sdl2
 
-# var mouseDragTarget: ref Pip
+var mouseDragTarget: ref Pip
 
 proc onMouseButtonDown(event: Event, gameState: var GameState) =
-  echo("onMouseButtonDown=", event.button.x)
+  let pos = (x: float32(event.button.x), y: float32(event.button.y))
+  mouseDragTarget = gameState.findPip(pos)
 
 proc onMouseButtonUp(event: Event, gameState: var GameState) =
-  echo("onMouseButtonUp=", event.button.x)
+  mouseDragTarget = nil
 
 proc onMouseMotion(event: Event, gameState: var GameState) =
-  echo("onMouseMotion=", event.motion.x)
+  if mouseDragTarget == nil:
+    return
+  mouseDragTarget.x = float32(event.motion.x)
+  mouseDragTarget.y = float32(event.motion.y)
 
 proc init*() =
   addSubscriber(MouseButtonDown, onMouseButtonDown)

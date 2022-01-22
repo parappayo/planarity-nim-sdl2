@@ -40,6 +40,16 @@ proc arrangeInCircle(pips: var seq[ref Pip], screenSize: ScreenSize) =
     pips[i].y = destPoint.y
     i += 1
 
+proc findPip*(gameState: GameState, pos: tuple[x: float32, y: float32]): ref Pip =
+  let radius = 24f  # depends on pip size
+  for pip in gameState.pips:
+    let
+      dx = pip.x - pos.x
+      dy = pip.y - pos.y
+    if dx * dx + dy * dy < radius * radius:
+      return pip
+  return nil
+
 proc startLevel(game: var GameState, level: int) =
   let
     lineCount = level + 4
