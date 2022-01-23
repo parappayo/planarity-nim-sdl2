@@ -92,11 +92,7 @@ proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[ref Pip], seq[
 
       previousPip = pip
 
-  var pips = newSeq[ref Pip]()
-  for pip in visitedPoints.values():
-    pips.add(pip)
-
-  (pips, connections)
+  (toSeq(visitedPoints.values), connections)
 
 proc generateLevel*(lineCount: int): (seq[ref Pip], seq[ref Edge]) =
   let linesAndInters = generateLinesAndIntersections(lineCount)
