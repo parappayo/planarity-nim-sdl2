@@ -23,12 +23,12 @@ iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
   let thetaStep = float32(TAU) / float32(pointCount)
   for i in 0 ..< pointCount:
     yield (
-      center.x + cos(theta) * radius,
-      center.y + sin(theta) * radius
+      x: center.x + cos(theta) * radius,
+      y: center.y + sin(theta) * radius
     )
     theta += thetaStep
 
-proc arrangeInCircle(pips: var seq[ref Pip], screenSize: ScreenSize) =
+proc arrangeInCircle(pips: seq[ref Pip], screenSize: ScreenSize) =
   let
     center = (
       float32(screenSize.width) / 2f,
@@ -40,7 +40,7 @@ proc arrangeInCircle(pips: var seq[ref Pip], screenSize: ScreenSize) =
   for destPoint in circlePoints(center, radius, len(pips)):
     pips[i].x = destPoint.x
     pips[i].y = destPoint.y
-    i += 1
+    inc(i)
 
 proc findPip*(gameState: GameState, pos: tuple[x: float32, y: float32]): ref Pip =
   let radius = 24f  # depends on pip size

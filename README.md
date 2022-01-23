@@ -93,3 +93,4 @@ I'm new to nim so the following are some reminders for myself.
 * `..<` is userful when iterating over a range: `for i in 0 ..< len(foo)`
 * see [References and pointer types](https://nim-lang.org/docs/manual.html#types-reference-and-pointer-types) for dealing with ref semantics
 * `[]` is the dereference operator
+* `new ref[int]` creates a new sequence object on the heap (reference semantics), `newRef[int]()` does so on the stack(?) (value semantics)
