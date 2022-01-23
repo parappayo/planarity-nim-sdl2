@@ -63,7 +63,6 @@ proc pointsAlongLine*(line: Line, inters: seq[Intersection]): seq[Point] =
 
 proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[ref Pip], seq[ref Edge]) =
   var
-    pips = newSeq[ref Pip]()
     connections = newSeq[ref Edge]()
     visitedPoints = initTable[Point, ref Pip]()
 
@@ -85,7 +84,6 @@ proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[ref Pip], seq[
         pip.y = point.y
         visitedPoints[point] = pip
 
-      pips.add(pip)
       if previousPip != nil:
         let edge = new(Edge)
         edge.fromPip = previousPip
@@ -93,6 +91,10 @@ proc findPips*(lines: seq[Line], inters: seq[Intersection]): (seq[ref Pip], seq[
         connections.add(edge)
 
       previousPip = pip
+
+  var pips = newSeq[ref Pip]()
+  for pip in visitedPoints.values():
+    pips.add(pip)
 
   (pips, connections)
 
