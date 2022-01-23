@@ -1,6 +1,11 @@
 import game_state
 import level_generator
 import sdl2
+import sdl2/ttf
+
+var font: FontPtr
+var youWinSurface: SurfacePtr
+var youWinText: TexturePtr
 
 proc drawEdge(renderer: RendererPtr, edge: Edge) =
   renderer.drawLine(
@@ -41,4 +46,23 @@ proc drawFrame*(renderer: RendererPtr, gameState: GameState) =
   for pip in gameState.pips:
     renderer.drawPip(pip[])
 
+  if gameState.levelComplete:
+    let
+      textWidth = youWinSurface.w
+      textHeight = youWinSurface.h
+      srcRect = rect(0, 0, textWidth, textHeight)
+      destRect = rect(
+        cint((gameState.screenSize.width - textWidth) div 2), cint((gameState.screenSize.height - textHeight) div 2),
+        textWidth, textHeight)
+    renderer.copy(youWinText, srcRect.unsafeAddr, destRect.unsafeAddr)
+
   renderer.present()
+
+proc init*(renderer: RendererPtr) =
+  font = openFont("Roboto-Bold.ttf", 32)
+  if font == nil:
+    echo("font failed to load")
+
+  let white = color(255, 255, 255, 255)
+  youWinSurface = renderTextSolid(font, "Level Complete", white)
+  youWinText = renderer.createTextureFromSurface(youWinSurface)

@@ -4,6 +4,7 @@ import game_state
 import input_mouse_drag
 import input_quit
 import sdl2
+import sdl2/ttf
 
 const
   WindowWidth = 800
@@ -44,10 +45,13 @@ proc main =
     init = initSdl()
     renderer = init[0]
     window = init[1]
+  ttfInit()
+  defer: ttfQuit()
   defer: sdl2.quit()
   defer: window.destroy()
   defer: renderer.destroy()
 
+  game_draw.init(renderer)
   input_mouse_drag.init()
   input_quit.init()
 

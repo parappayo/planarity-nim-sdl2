@@ -16,7 +16,7 @@ type
     screenSize*: ScreenSize
     running*: bool
     lastFoundCollision*: (ref Edge, ref Edge)
-    levelComplete: bool
+    levelComplete*: bool
 
 iterator circlePoints(center: Point, radius: float32, pointCount: int): Point =
   var theta = 0f
